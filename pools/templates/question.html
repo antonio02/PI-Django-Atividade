@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>{{question.question}} // {{question.pub_date}} // {{question.closed}} <a href="{% url 'change_question_state' question.id %}"><button>Change State</button></a></h2>
+    {% for choice in question.choices.all %}
+        <p>
+            {{choice.choice_text}} // votos: {{choice.votes}} // {{choices.closed}}
+            {% if not question.closed %}
+            <a href="{% url 'vote_choice' question.id choice.id %}"><button>Up Vote</button></a>
+            {% endif %}
+            <a href="{% url 'remove_choice' question.id choice.id %}" onclick="return confirm('Are you sure?')"><button>Deletar</button></a>
+        </p>
+    {% endfor %}
+
+    <h2>Unassigned Choices</h2>
+    <ul>
+    {% for choice in unassigned_choices %}
+        <li>
+            {{choice.choice_text}} //
+            <a href="{% url 'assign_choice' question.id choice.id %}"><button>Assing to the question</button></a>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
